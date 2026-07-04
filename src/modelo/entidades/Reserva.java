@@ -4,6 +4,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
+import modelos.excecoes.DominioExcecoes;
+
 public class Reserva {
 	
 	private Integer numeroQuarto;
@@ -16,7 +18,11 @@ public class Reserva {
 		
 	}
 
-	public Reserva(Integer numeroQuarto, Date checkIn, Date checkOut) {
+	public Reserva(Integer numeroQuarto, Date checkIn, Date checkOut) { // throws DominioExcecoes {
+		if(!checkOut.after(checkIn)) {
+			throw new DominioExcecoes("data de entrada deve ser posterior a de saída");
+		}
+		
 		this.numeroQuarto = numeroQuarto;
 		this.checkIn = checkIn;
 		this.checkOut = checkOut;
@@ -51,13 +57,13 @@ public class Reserva {
 		
 	}
 	
-	public void atualizaDatas(Date checkIn, Date checkOut) {
+	public void atualizaDatas(Date checkIn, Date checkOut) { // throws DominioExcecoes {
 		Date now = new Date();
 		if  (checkIn.before(now) || checkOut.before(checkOut)) {
-		      throw new IllegalArgumentException("as Datas das atualizações informadas devem ser futuras as reservadas");
+		      throw new DominioExcecoes("as Datas das atualizações informadas devem ser futuras as reservadas");
 		}
 		if (!checkOut.after(checkIn)) {
-		      throw new IllegalArgumentException("data da saída deve ser posterior a data de entrada");
+		      throw new DominioExcecoes("data da saída deve ser posterior a data de entrada");
 		} 
 		this.checkIn=checkIn;
 		this.checkOut=checkOut;
