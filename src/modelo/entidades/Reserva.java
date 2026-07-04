@@ -51,17 +51,16 @@ public class Reserva {
 		
 	}
 	
-	public String atualizaDatas(Date checkIn, Date checkOut) {
+	public void atualizaDatas(Date checkIn, Date checkOut) {
 		Date now = new Date();
 		if  (checkIn.before(now) || checkOut.before(checkOut)) {
-		      return "as Datas das atualizações informadas devem ser futuras as reservadas";
+		      throw new IllegalArgumentException("as Datas das atualizações informadas devem ser futuras as reservadas");
 		}
 		if (!checkOut.after(checkIn)) {
-		      return "data da saída deve ser posterior a data de entrada";
+		      throw new IllegalArgumentException("data da saída deve ser posterior a data de entrada");
 		} 
 		this.checkIn=checkIn;
 		this.checkOut=checkOut;
-		return null;
 	}
 	@Override
 	public String toString() {
